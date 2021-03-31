@@ -43,7 +43,9 @@ function mergeObjectsInUnique<T>(array: T[]): T[] {
     const newArray = new Map();
     array.forEach((item: any) => {
         const propertyValue = item.at;
-
+        newArray.has(propertyValue)
+            ? newArray.set(propertyValue, { ...item, ...newArray.get(propertyValue) })
+            : newArray.set(propertyValue, item);
     });
     return Array.from(newArray.values());
 }
@@ -52,7 +54,10 @@ function groupByKey(array: any, key: string): void {
     // For merging all values together
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array[i].measurements.length; j++) {
-
+            groupTimeObject.push({
+                at: moment(array[i].measurements[j].at).format('LTS'),
+                [array[i].measurements[j].metric]: array[i].measurements[j].value,
+            });
         }
     }
     // For Grouping by time
@@ -109,7 +114,18 @@ const MetricChart: React.FC<Props> = (props) => {
                             <Legend />
                             <Tooltip />
 
-
+                            {selectedChartOptions?.map((c: { value: string }, i: number) => {
+                                return (
+                                    <Line
+                                        type="monotone"
+                                        key={c.value}
+                                        dataKey={c.value}
+                                        stroke={colors[i]}
+                                        dot={false}
+                                        isAnimationActive={false}
+                                    />
+                                );
+                            })}
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

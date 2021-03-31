@@ -31,9 +31,9 @@ const MetricCard = (props) => {
     const newValue = filterByMetric !== undefined ? filterByMetric : metric;
 
     useEffect(() => {
-
-        setMetric(newValue);
-
+        if (newValue !== undefined) {
+            setMetric(newValue);
+        }
     }, [newValue]);
 
     return (
@@ -42,7 +42,7 @@ const MetricCard = (props) => {
                 <Typography variant="h6" component="h4" align="center">
                     {props.info.label}
                 </Typography>
-                <Typography className={classes.pos} align="center" variant="h5" component="h1">
+                <Typography className={classes.pos} color="textSecondary" align="center" variant="h5" component="h1">
                     {`${metric.value} - ${metric.unit}`}
                 </Typography>
             </CardContent>

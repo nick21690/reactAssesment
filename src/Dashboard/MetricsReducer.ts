@@ -18,7 +18,9 @@ export type AllMeasurements = {
 export type LiveMetricsTypes = {
     liveData: Array<Object>;
     metric: string;
-
+    value: string;
+    at: string;
+    unit: string;
 };
 
 export type ApiErrorAction = {
